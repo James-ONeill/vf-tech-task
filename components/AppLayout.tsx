@@ -9,7 +9,7 @@ export default function AppLayout({ children }: Props) {
   return (
     <div className="flex min-h-screen">
       <AppSidebar />
-      <div>{children}</div>
+      <main className="px-8 py-5">{children}</main>
     </div>
   )
 }

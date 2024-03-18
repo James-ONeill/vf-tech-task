@@ -3,6 +3,7 @@ import { Resource } from "@/types/API"
 import axios from "axios"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
+import { getResources } from "@/api"
 
 function sortResourcesByName(a: Resource, b: Resource): number {
   const nameA = a.name.toUpperCase()
@@ -29,7 +30,7 @@ export default function ResourceList({ reverseSorting }: Props) {
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await axios.get("http://localhost:4000/resources")
+        const response = await getResources();
         setResources(response.data)
       } catch (e) {}
     })()
