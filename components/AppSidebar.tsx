@@ -1,43 +1,32 @@
 "use client"
-import { useEffect, useState } from "react"
 import clsx from "clsx"
+import { useEffect, useState } from "react"
 import ResourceList from "./ResourceList"
-
-const resources: string[] = [
-  "Alex Richards",
-  "Andrew Winter",
-  "Chris Walters",
-  "Dave Foster",
-  "Matt Wilson",
-  "Sarah West",
-]
+import Link from "next/link"
 
 export default function AppSidebar() {
-  const [sortingIsReversed, setSortingIsReversed] = useState<boolean>(false)
+  const [reverseSorting, setReversedSorting] = useState<boolean>(false)
 
   useEffect(() => {
-    const savedSortingIsReversed = localStorage.getItem("sortingIsReversed")
+    const savedReverseSorting = localStorage.getItem("reverseSorting")
 
-    if (savedSortingIsReversed === "true") {
-      setSortingIsReversed(true)
+    if (savedReverseSorting === "true") {
+      setReversedSorting(true)
     }
   }, [])
 
   useEffect(() => {
-    localStorage.setItem(
-      "sortingIsReversed",
-      sortingIsReversed ? "true" : "false"
-    )
-  }, [sortingIsReversed])
+    localStorage.setItem("reverseSorting", reverseSorting ? "true" : "false")
+  }, [reverseSorting])
 
   return (
-    <div className="bg-gray-50 w-[295px] py-5 px-2.5 font-medium flex flex-col gap-4">
-      <h1>
+    <nav className="bg-gray-50 w-[295px] py-5 px-2.5 font-medium flex flex-col gap-4">
+      <Link href="/">
         <span className="bg-[#783CE6] text-white rounded-md w-[40px] h-[40px] inline-flex items-center justify-center">
           VF
         </span>{" "}
         RESOURCING
-      </h1>
+      </Link>
 
       <div className="flex justify-between px-2 py-3 border-t-2 border-b-2 border-[#E6E7EB] items-center">
         <div>Sort</div>
@@ -46,9 +35,9 @@ export default function AppSidebar() {
           <button
             className={clsx(
               "py-1.5 px-2 rounded-md transition-colors duration-150 hover:bg-[#EDE9FD] hover:text-[#7A3FE6]",
-              !sortingIsReversed && "bg-[#EDE9FD] text-[#7A3FE6]"
+              !reverseSorting && "bg-[#EDE9FD] text-[#7A3FE6]"
             )}
-            onClick={() => setSortingIsReversed(false)}
+            onClick={() => setReversedSorting(false)}
           >
             A-Z
           </button>
@@ -56,22 +45,25 @@ export default function AppSidebar() {
           <button
             className={clsx(
               "py-1.5 px-2 rounded-md transition-colors duration-150 hover:bg-[#EDE9FD] hover:text-[#7A3FE6]",
-              sortingIsReversed && "bg-[#EDE9FD] color-[#7A3FE6]"
+              reverseSorting && "bg-[#EDE9FD] color-[#7A3FE6]"
             )}
-            onClick={() => setSortingIsReversed(true)}
+            onClick={() => setReversedSorting(true)}
           >
             Z-A
           </button>
         </div>
       </div>
 
-      <ResourceList resources={resources} reverseSorting={sortingIsReversed} />
+      <ResourceList reverseSorting={reverseSorting} />
 
       <div className="mt-auto">
-        <button className="bg-[#783CE6] text-white px-4 py-3 rounded-md">
+        <Link
+          href="/resources/create"
+          className="bg-[#783CE6] text-white px-4 py-3 rounded-md"
+        >
           + New Resource
-        </button>
+        </Link>
       </div>
-    </div>
+    </nav>
   )
 }
