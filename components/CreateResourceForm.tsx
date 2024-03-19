@@ -119,8 +119,9 @@ export default function CreateResourceForm() {
 
       <div className="grid grid-cols-2 gap-x-4 gap-y-3 w-[405px]">
         <div className="flex flex-col">
-          <label>First Name</label>
+          <label htmlFor="firstName">First Name</label>
           <input
+            id="firstName"
             type="text"
             className="border-2 border-[#D2D5DB] h-8 px-2 disabled:opacity-50 disabled:cursor-not-allowed"
             onChange={(event) => setFirstName(event.target.value)}
@@ -137,8 +138,9 @@ export default function CreateResourceForm() {
         </div>
 
         <div className="flex flex-col">
-          <label>Last Name</label>
+          <label htmlFor="lastName">Last Name</label>
           <input
+            id="lastName"
             type="text"
             className="border-2 border-[#D2D5DB] h-8 px-2 disabled:opacity-50 disabled:cursor-not-allowed"
             onChange={(event) => setLastName(event.target.value)}
@@ -155,8 +157,9 @@ export default function CreateResourceForm() {
         </div>
 
         <div className="flex flex-col col-start-1">
-          <label>Role</label>
+          <label htmlFor="role">Role</label>
           <input
+            id="role"
             type="text"
             className="border-2 border-[#D2D5DB] h-8 px-2 disabled:opacity-50 disabled:cursor-not-allowed"
             onChange={(event) => setRole(event.target.value)}
@@ -172,8 +175,9 @@ export default function CreateResourceForm() {
         </div>
 
         <div className="flex flex-col col-start-1">
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
           <input
+            id="email"
             type="email"
             className="border-2 border-[#D2D5DB] h-8 px-2 disabled:opacity-50 disabled:cursor-not-allowed"
             onChange={(event) => setEmail(event.target.value.toLowerCase())}
