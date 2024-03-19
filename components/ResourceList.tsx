@@ -1,24 +1,11 @@
 "use client"
 import { getResources } from "@/api"
 import { Resource } from "@/types/API"
+import { sortResourcesByName } from "@/utilities"
+import clsx from "clsx"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
-
-function sortResourcesByName(a: Resource, b: Resource): number {
-  const nameA = a.name.toUpperCase()
-  const nameB = b.name.toUpperCase()
-
-  if (nameA < nameB) {
-    return -1
-  }
-
-  if (nameA > nameB) {
-    return 1
-  }
-
-  return 0
-}
 
 interface Props {
   reverseSorting: boolean
@@ -49,9 +36,17 @@ export default function ResourceList({ reverseSorting }: Props) {
   }, [resources, reverseSorting])
 
   return resources.length ? (
-    <ul className="space-y-3">
+    <ul>
       {sortedResources.map((resource, key) => (
-        <li key={key}>
+        <li
+          key={key}
+          className={clsx(
+            "transition duration-300 px-3 py-2 border hover:text-[#7A3FE6]",
+            pathname === `/resources/${resource.id}`
+              ? "bg-[#EDE9FD] rounded-md text-black border border-[#DDD6FC]"
+              : "border-transparent"
+          )}
+        >
           <Link href={`/resources/${resource.id}`}>{resource.name}</Link>
         </li>
       ))}
