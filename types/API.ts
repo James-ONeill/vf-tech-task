@@ -8,7 +8,11 @@ export interface DetailedResource extends Resource {
   email: string
 }
 
-export interface NewResource extends DetailedResource {
+export interface NewResource {
+  firstname: string
+  lastname: string
+  role: string
+  email: string
   skills: number[]
 }
 

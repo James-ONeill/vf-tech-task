@@ -1,9 +1,9 @@
 "use client"
-import { Resource } from "@/types/API"
-import axios from "axios"
-import Link from "next/link"
-import { useEffect, useMemo, useState } from "react"
 import { getResources } from "@/api"
+import { Resource } from "@/types/API"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { useEffect, useMemo, useState } from "react"
 
 function sortResourcesByName(a: Resource, b: Resource): number {
   const nameA = a.name.toUpperCase()
@@ -25,16 +25,18 @@ interface Props {
 }
 
 export default function ResourceList({ reverseSorting }: Props) {
+  const pathname = usePathname()
+
   const [resources, setResources] = useState<Resource[]>([])
 
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await getResources();
+        const response = await getResources()
         setResources(response.data)
       } catch (e) {}
     })()
-  }, [])
+  }, [pathname])
 
   const sortedResources = useMemo(() => {
     const sortedResources = resources.sort(sortResourcesByName)
