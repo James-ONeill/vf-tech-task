@@ -1,5 +1,5 @@
 "use client"
-import { DetailedResource, Skill } from "@/types/API"
+import { DetailedResource, Skill } from "@/api/types"
 import { useEffect, useState } from "react"
 import { getResourceDetails, getResourceSkills } from "@/api"
 import { getInitials } from "@/utilities"

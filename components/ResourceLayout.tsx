@@ -1,4 +1,4 @@
-import { DetailedResource } from "@/types/API";
+import { DetailedResource } from "@/api/types";
 import { ReactNode } from "react";
 
 interface Props {

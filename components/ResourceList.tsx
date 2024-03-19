@@ -1,6 +1,6 @@
 "use client"
 import { getResources } from "@/api"
-import { Resource } from "@/types/API"
+import { Resource } from "@/api/types"
 import { sortResourcesByName } from "@/utilities"
 import clsx from "clsx"
 import Link from "next/link"

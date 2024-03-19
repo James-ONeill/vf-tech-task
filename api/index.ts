@@ -1,17 +1,19 @@
+import { NewResource } from "@/api/types"
 import axios from "axios"
-import { NewResource } from "@/types/API"
 
 const baseURL = "http://localhost:4000"
 
-export const getResources = () => axios.get([baseURL, "resources"].join("/"))
+const endpoint = (...fragments: string[]) => [baseURL, ...fragments].join("/")
+
+export const getResources = () => axios.get(endpoint("resources"))
 
 export const getResourceDetails = (id: string) =>
-  axios.get([baseURL, "resources", id].join("/"))
+  axios.get(endpoint("resources", id))
 
 export const getResourceSkills = (id: string) =>
-  axios.get([baseURL, "resources", id, "skills"].join("/"))
+  axios.get(endpoint("resources", id, "skills"))
 
-export const getSkills = () => axios.get([baseURL, "skills"].join("/"))
+export const getSkills = () => axios.get(endpoint("skills"))
 
 export const createResource = (resource: NewResource) =>
-  axios.post([baseURL, "resources"].join("/"), resource)
+  axios.post(endpoint("resources"), resource)

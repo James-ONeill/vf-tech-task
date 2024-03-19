@@ -1,6 +1,6 @@
 "use client"
 import { getSkills } from "@/api"
-import { Skill } from "@/types/API"
+import { Skill } from "@/api/types"
 import { useEffect, useMemo, useState } from "react"
 import { createResource } from "@/api"
 import { useRouter } from "next/navigation"

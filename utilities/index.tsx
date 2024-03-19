@@ -1,4 +1,4 @@
-import { Resource } from "@/types/API"
+import { Resource } from "@/api/types"
 
 export const getInitials = (name: string): string => {
   const splitName = name.split(" ")
