@@ -24,8 +24,10 @@ export default function ResourceDetails({ id }: Props) {
       setResource(response.data);
     })();
     (async () => {
-      const response = await getResourceSkills(id);
-      setSkills(response.data);
+      try {
+        const response = await getResourceSkills(id);
+        setSkills(response.data);
+      } catch (e) {}
 
       setIsLoadingSkills(false);
     })();
