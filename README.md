@@ -5,7 +5,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 
 In order for the project to function the API needs to be running. If for any reason it's not being served from
-`https://localhost:4000` you can update the endpoint by changing the `baseURL` property in `/api/index.tsx`.
+`https://localhost:4000` you can update the endpoint by changing the `baseURL` property in `/api/index.ts`.
 
 First, install the dependencies.
 
