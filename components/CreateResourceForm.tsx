@@ -1,97 +1,96 @@
-"use client"
-import { getSkills } from "@/api"
-import { Skill } from "@/api/types"
-import { useEffect, useMemo, useState } from "react"
-import { createResource } from "@/api"
-import { useRouter } from "next/navigation"
-import axios from "axios"
+"use client";
+import { getSkills } from "@/api";
+import { Skill } from "@/api/types";
+import { useEffect, useMemo, useState } from "react";
+import { createResource } from "@/api";
+import { useRouter } from "next/navigation";
+import Skeleton from "react-loading-skeleton";
 
 export default function CreateResourceForm() {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [isLoadingSkills, setIsLoadingSkills] = useState<boolean>(false)
-  const [availableSkills, setAvailableSkills] = useState<Skill[]>([])
+  const [isLoadingSkills, setIsLoadingSkills] = useState<boolean>(true);
+  const [availableSkills, setAvailableSkills] = useState<Skill[]>([]);
 
-  const [firstName, setFirstName] = useState<string>("")
-  const [lastName, setLastName] = useState<string>("")
-  const [role, setRole] = useState<string>("")
-  const [email, setEmail] = useState<string>("")
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [role, setRole] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
-  const [skills, setSkills] = useState<number[]>([])
+  const [skills, setSkills] = useState<number[]>([]);
 
-  const [showValidation, setShowValidation] = useState<boolean>(false)
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+  const [showValidation, setShowValidation] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsLoadingSkills(true)
-    ;(async () => {
-      const response = await getSkills()
-      setAvailableSkills(response.data)
+    (async () => {
+      const response = await getSkills();
+      setAvailableSkills(response.data);
 
-      setIsLoadingSkills(false)
-    })()
-  }, [])
+      setIsLoadingSkills(false);
+    })();
+  }, []);
 
   const validationStatus = useMemo(() => {
     const validationStatus: {
-      isValid: boolean
+      isValid: boolean;
       errors: {
-        firstName?: string
-        lastName?: string
-        role?: string
-        email?: string
-        skills?: string
-      }
+        firstName?: string;
+        lastName?: string;
+        role?: string;
+        email?: string;
+        skills?: string;
+      };
     } = {
       isValid: true,
       errors: {},
-    }
+    };
 
     if (!firstName || firstName === "") {
-      validationStatus.isValid = false
-      validationStatus.errors.firstName = "First name is required"
+      validationStatus.isValid = false;
+      validationStatus.errors.firstName = "First name is required";
     }
 
     if (!lastName || lastName === "") {
-      validationStatus.isValid = false
-      validationStatus.errors.lastName = "Last name is required"
+      validationStatus.isValid = false;
+      validationStatus.errors.lastName = "Last name is required";
     }
 
     if (!role || role === "") {
-      validationStatus.isValid = false
-      validationStatus.errors.role = "Role is required"
+      validationStatus.isValid = false;
+      validationStatus.errors.role = "Role is required";
+    }
+
+    if (!role || role === "") {
+      validationStatus.isValid = false;
+      validationStatus.errors.role = "Role is required";
     }
 
     if (!email || email === "") {
-      validationStatus.isValid = false
-      validationStatus.errors.role = "Role is required"
-    }
-
-    if (!email || email === "") {
-      validationStatus.isValid = false
-      validationStatus.errors.email = "Email is required"
+      validationStatus.isValid = false;
+      validationStatus.errors.email = "Email is required";
     } else if (
       !email
         ?.toLowerCase()
         .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         )
     ) {
-      validationStatus.isValid = false
-      validationStatus.errors.role = "A valid email address is required"
+      validationStatus.isValid = false;
+      validationStatus.errors.email = "A valid email address is required";
     }
 
     if (skills.length < 1) {
-      validationStatus.isValid = false
-      validationStatus.errors.skills = "Please select at least one skill"
+      validationStatus.isValid = false;
+      validationStatus.errors.skills = "Please select at least one skill";
     }
 
-    return validationStatus
-  }, [firstName, lastName, role, email, skills])
+    return validationStatus;
+  }, [firstName, lastName, role, email, skills]);
 
   async function submit() {
-    setIsSubmitting(true)
-    setShowValidation(false)
+    setIsSubmitting(true);
+    setShowValidation(false);
 
     try {
       const response = await createResource({
@@ -100,30 +99,30 @@ export default function CreateResourceForm() {
         role,
         email,
         skills,
-      })
+      });
 
-      router.push(`/resources/${response.data.id}`)
+      router.push(`/resources/${response.data.id}`);
     } catch (error) {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
   }
 
   return (
     <form
       onSubmit={(event) => {
-        event.preventDefault()
-        validationStatus.isValid ? submit() : setShowValidation(true)
+        event.preventDefault();
+        validationStatus.isValid ? submit() : setShowValidation(true);
       }}
     >
-      <h1>Create New Resource</h1>
+      <h1 className="mb-8 mt-2 text-xl font-semibold">Create New Resource</h1>
 
-      <div className="grid grid-cols-2 gap-x-4 gap-y-3 w-[405px]">
+      <div className="mb-10 grid w-[405px] grid-cols-2 gap-x-4 gap-y-3">
         <div className="flex flex-col">
           <label htmlFor="firstName">First Name</label>
           <input
             id="firstName"
             type="text"
-            className="border-2 border-[#D2D5DB] h-8 px-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="h-8 border-2 border-[#D2D5DB] px-2 disabled:cursor-not-allowed disabled:opacity-50"
             onChange={(event) => setFirstName(event.target.value)}
             disabled={isSubmitting}
           />
@@ -131,7 +130,7 @@ export default function CreateResourceForm() {
           {showValidation &&
             !validationStatus.isValid &&
             validationStatus.errors.firstName && (
-              <p className="text-red-500 text-sm mt-1">
+              <p className="mt-1 text-sm text-red-500">
                 {validationStatus.errors.firstName}
               </p>
             )}
@@ -142,7 +141,7 @@ export default function CreateResourceForm() {
           <input
             id="lastName"
             type="text"
-            className="border-2 border-[#D2D5DB] h-8 px-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="h-8 border-2 border-[#D2D5DB] px-2 disabled:cursor-not-allowed disabled:opacity-50"
             onChange={(event) => setLastName(event.target.value)}
             disabled={isSubmitting}
           />
@@ -150,73 +149,127 @@ export default function CreateResourceForm() {
           {showValidation &&
             !validationStatus.isValid &&
             validationStatus.errors.lastName && (
-              <p className="text-red-500 text-sm mt-1">
+              <p className="mt-1 text-sm text-red-500">
                 {validationStatus.errors.lastName}
               </p>
             )}
         </div>
 
-        <div className="flex flex-col col-start-1">
+        <div className="col-start-1 flex flex-col">
           <label htmlFor="role">Role</label>
           <input
             id="role"
             type="text"
-            className="border-2 border-[#D2D5DB] h-8 px-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="h-8 border-2 border-[#D2D5DB] px-2 disabled:cursor-not-allowed disabled:opacity-50"
             onChange={(event) => setRole(event.target.value)}
             disabled={isSubmitting}
           />
           {showValidation &&
             !validationStatus.isValid &&
             validationStatus.errors.role && (
-              <p className="text-red-500 text-sm mt-1">
+              <p className="mt-1 text-sm text-red-500">
                 {validationStatus.errors.role}
               </p>
             )}
         </div>
 
-        <div className="flex flex-col col-start-1">
+        <div className="col-start-1 flex flex-col">
           <label htmlFor="email">Email</label>
           <input
             id="email"
             type="email"
-            className="border-2 border-[#D2D5DB] h-8 px-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="h-8 border-2 border-[#D2D5DB] px-2 disabled:cursor-not-allowed disabled:opacity-50"
             onChange={(event) => setEmail(event.target.value.toLowerCase())}
             disabled={isSubmitting}
           />
           {showValidation &&
             !validationStatus.isValid &&
             validationStatus.errors.email && (
-              <p className="text-red-500 text-sm mt-1">
+              <p className="mt-1 text-sm text-red-500">
                 {validationStatus.errors.email}
               </p>
             )}
         </div>
       </div>
 
-      {availableSkills.map((skill) => (
-        <div key={skill.id} className="flex gap-4 space-y-2 items-center">
-          <input
-            type="checkbox"
-            id={`skill-${skill.id}`}
-            onChange={() =>
-              setSkills((current) => {
-                if (current.includes(skill.id)) {
-                  return current.filter((id) => id !== skill.id)
-                }
+      <div className="space-y-2">
+        {!isLoadingSkills ? (
+          availableSkills.map((skill) => (
+            <div key={skill.id} className="flex items-center gap-4">
+              <input
+                type="checkbox"
+                id={`skill-${skill.id}`}
+                onChange={() =>
+                  setSkills((current) => {
+                    if (current.includes(skill.id)) {
+                      return current.filter((id) => id !== skill.id);
+                    }
 
-                return [...current, skill.id]
-              })
-            }
-            disabled={isSubmitting}
-          />
-          <label htmlFor={`skill-${skill.id}`}>{skill.name}</label>
-        </div>
-      ))}
+                    return [...current, skill.id];
+                  })
+                }
+                disabled={isSubmitting}
+              />
+              <label htmlFor={`skill-${skill.id}`}>{skill.name}</label>
+            </div>
+          ))
+        ) : (
+          <>
+            <div className="flex gap-4">
+              <Skeleton
+                circle
+                baseColor="#D2D5DB"
+                highlightColor="#e3e3e3"
+                width={20}
+                height={20}
+              />
+              <Skeleton
+                baseColor="#D2D5DB"
+                highlightColor="#e3e3e3"
+                width={200}
+                height={20}
+              />
+            </div>
+
+            <div className="flex gap-4">
+              <Skeleton
+                circle
+                baseColor="#D2D5DB"
+                highlightColor="#e3e3e3"
+                width={20}
+                height={20}
+              />
+              <Skeleton
+                baseColor="#D2D5DB"
+                highlightColor="#e3e3e3"
+                width={200}
+                height={20}
+              />
+            </div>
+
+            <div className="flex gap-4">
+              <Skeleton
+                circle
+                baseColor="#D2D5DB"
+                highlightColor="#e3e3e3"
+                width={20}
+                height={20}
+              />
+              <Skeleton
+                baseColor="#D2D5DB"
+                highlightColor="#e3e3e3"
+                width={200}
+                height={20}
+              />
+            </div>
+          </>
+        )}
+      </div>
 
       {showValidation &&
         !validationStatus.isValid &&
         validationStatus.errors.skills && (
-          <p className="text-red-500 text-sm mt-1">
+          <p className="mt-1 text-sm text-red-500">
             {validationStatus.errors.skills}
           </p>
         )}
@@ -224,12 +277,12 @@ export default function CreateResourceForm() {
       <footer className="mt-10">
         <button
           type="submit"
-          className="bg-[#EDE9FD] px-8 py-2 rounded-md text-black font-semibold border border-[#DDD6FC] disabled:opacity-50 disabled:cursor-not-allowed"
+          className="rounded-md border border-[#DDD6FC] bg-[#EDE9FD] px-8 py-2 font-semibold text-black hover:bg-[#EDE9FD]/80 disabled:cursor-not-allowed disabled:opacity-50"
           disabled={isSubmitting}
         >
           Save
         </button>
       </footer>
     </form>
-  )
+  );
 }

@@ -1,8 +1,9 @@
-import type { Metadata } from "next"
-import { Montserrat } from "next/font/google"
-import "./globals.css"
 import AppLayout from "@/components/AppLayout"
 import clsx from "clsx"
+import type { Metadata } from "next"
+import { Montserrat } from "next/font/google"
+import 'react-loading-skeleton/dist/skeleton.css'
+import "./globals.css"
 
 const montserrat = Montserrat({ subsets: ["latin"] })
 

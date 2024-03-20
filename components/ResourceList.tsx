@@ -6,6 +6,7 @@ import clsx from "clsx"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
+import Skeleton from "react-loading-skeleton";
 
 interface Props {
   reverseSorting: boolean
@@ -14,6 +15,7 @@ interface Props {
 export default function ResourceList({ reverseSorting }: Props) {
   const pathname = usePathname()
 
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [resources, setResources] = useState<Resource[]>([])
 
   useEffect(() => {
@@ -22,6 +24,8 @@ export default function ResourceList({ reverseSorting }: Props) {
         const response = await getResources()
         setResources(response.data)
       } catch (e) {}
+
+      setIsLoading(false)
     })()
   }, [pathname])
 
@@ -35,7 +39,9 @@ export default function ResourceList({ reverseSorting }: Props) {
     return sortedResources
   }, [resources, reverseSorting])
 
-  return resources.length ? (
+  return isLoading ? (
+    <Skeleton count={10} containerClassName="space-y-3" baseColor="#D2D5DB" highlightColor="#e3e3e3" height={20} />
+  ) : (
     <ul>
       {sortedResources.map((resource, key) => (
         <li
@@ -51,7 +57,5 @@ export default function ResourceList({ reverseSorting }: Props) {
         </li>
       ))}
     </ul>
-  ) : (
-    <></>
   )
 }

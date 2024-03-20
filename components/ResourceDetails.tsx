@@ -1,50 +1,75 @@
-"use client"
-import { DetailedResource, Skill } from "@/api/types"
-import { useEffect, useState } from "react"
-import { getResourceDetails, getResourceSkills } from "@/api"
-import { getInitials } from "@/utilities"
-import clsx from "clsx"
+"use client";
+import { getResourceDetails, getResourceSkills } from "@/api";
+import { DetailedResource, Skill } from "@/api/types";
+import { getInitials } from "@/utilities";
+import clsx from "clsx";
+import { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
 
 interface Props {
-  id: string
+  id: string;
 }
 
 export default function ResourceDetails({ id }: Props) {
-  const [resource, setResource] = useState<DetailedResource>()
-  const [skills, setSkills] = useState<Skill[]>([])
-  const [tab, setTab] = useState<"overview" | "skills">("overview")
+  const [resource, setResource] = useState<DetailedResource>();
+
+  const [isLoadingSkills, setIsLoadingSkills] = useState<boolean>(true);
+  const [skills, setSkills] = useState<Skill[]>([]);
+
+  const [tab, setTab] = useState<"overview" | "skills">("overview");
 
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       try {
-        const response = await getResourceDetails(id)
-        setResource(response.data)
+        const response = await getResourceDetails(id);
+        setResource(response.data);
       } catch (e) {}
-    })()
-    ;(async () => {
+    })();
+    (async () => {
       try {
-        const response = await getResourceSkills(id)
-        setSkills(response.data)
+        const response = await getResourceSkills(id);
+        setSkills(response.data);
       } catch (e) {}
-    })()
-  }, [id])
 
-  return resource ? (
+      setIsLoadingSkills(false);
+    })();
+  }, [id]);
+
+  return (
     <div className="flex gap-4">
-      <div className="w-[40px] h-[40px] rounded-full bg-gray-50 flex justify-center items-center font-medium">
-        {getInitials(resource.name)}
-      </div>
+      {resource ? (
+        <div className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-gray-50 font-medium">
+          {getInitials(resource.name)}
+        </div>
+      ) : (
+        <Skeleton
+          circle
+          baseColor="#D2D5DB"
+          highlightColor="#e3e3e3"
+          width={40}
+          height={40}
+        />
+      )}
 
       <div>
-        <div className="h-[40px] flex items-center font-medium mb-10">
-          <h1>{resource.name}</h1>
+        <div className="mb-10 flex h-[40px] items-center font-medium">
+          {resource ? (
+            <h1>{resource.name}</h1>
+          ) : (
+            <Skeleton
+              baseColor="#D2D5DB"
+              highlightColor="#e3e3e3"
+              height={30}
+              width={200}
+            />
+          )}
         </div>
 
-        <div className="flex mb-8">
+        <div className="mb-8 flex">
           <button
             className={clsx(
-              "py-1.5 px-2 rounded-md transition-colors duration-150 hover:text-[#7A3FE6]",
-              tab === "overview" && "bg-[#EDE9FD] text-[#7A3FE6]"
+              "rounded-md px-2 py-1.5 transition-colors duration-150 hover:text-[#7A3FE6]",
+              tab === "overview" && "bg-[#EDE9FD] text-[#7A3FE6]",
             )}
             onClick={() => setTab("overview")}
           >
@@ -53,8 +78,8 @@ export default function ResourceDetails({ id }: Props) {
 
           <button
             className={clsx(
-              "py-1.5 px-2 rounded-md transition-colors duration-150 hover:text-[#7A3FE6]",
-              tab === "skills" && "bg-[#EDE9FD] text-[#7A3FE6]"
+              "rounded-md px-2 py-1.5 transition-colors duration-150 hover:text-[#7A3FE6]",
+              tab === "skills" && "bg-[#EDE9FD] text-[#7A3FE6]",
             )}
             onClick={() => setTab("skills")}
           >
@@ -63,29 +88,121 @@ export default function ResourceDetails({ id }: Props) {
         </div>
 
         {tab === "overview" && (
-          <dl className="space-y-2">
-            <div className="space-y-1">
-              <dt className="font-xs">Role</dt>
-              <dd className="font-medium">{resource.role}</dd>
-            </div>
+          <>
+            {resource ? (
+              <dl className="space-y-2">
+                <div className="space-y-1">
+                  <dt className="font-xs">Role</dt>
+                  <dd className="font-medium">{resource.role}</dd>
+                </div>
 
-            <div className="space-y-1">
-              <dt className="font-xs">Email</dt>
-              <dd className="font-medium">{resource.email}</dd>
-            </div>
-          </dl>
+                <div className="space-y-1">
+                  <dt className="font-xs">Email</dt>
+                  <dd className="font-medium">{resource.email}</dd>
+                </div>
+              </dl>
+            ) : (
+              <div className="space-y-2">
+                <div>
+                  <Skeleton
+                    baseColor="#D2D5DB"
+                    highlightColor="#e3e3e3"
+                    height={16}
+                    width={150}
+                  />
+                  <Skeleton
+                    baseColor="#D2D5DB"
+                    highlightColor="#e3e3e3"
+                    height={20}
+                    width={200}
+                  />
+                </div>
+
+                <div>
+                  <Skeleton
+                    baseColor="#D2D5DB"
+                    highlightColor="#e3e3e3"
+                    height={16}
+                    width={150}
+                  />
+                  <Skeleton
+                    baseColor="#D2D5DB"
+                    highlightColor="#e3e3e3"
+                    height={20}
+                    width={200}
+                  />
+                </div>
+              </div>
+            )}
+          </>
         )}
 
         {tab === "skills" && (
-          <ul className="list-disc ml-8 space-y-2">
-            {skills.map((skill) => (
-              <li key={skill.id}>{skill.name}</li>
-            ))}
-          </ul>
+          <>
+            {!isLoadingSkills ? (
+              <>
+                {skills.length ? (
+                  <ul className="ml-8 list-disc space-y-2">
+                    {skills.map((skill) => (
+                      <li key={skill.id}>{skill.name}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>This resource has no assigned skills.</p>
+                )}
+              </>
+            ) : (
+              <div className="space-y-2">
+                <div className="flex gap-4">
+                  <Skeleton
+                    circle
+                    baseColor="#D2D5DB"
+                    highlightColor="#e3e3e3"
+                    width={20}
+                    height={20}
+                  />
+                  <Skeleton
+                    baseColor="#D2D5DB"
+                    highlightColor="#e3e3e3"
+                    width={200}
+                    height={20}
+                  />
+                </div>
+                <div className="flex gap-4">
+                  <Skeleton
+                    circle
+                    baseColor="#D2D5DB"
+                    highlightColor="#e3e3e3"
+                    width={20}
+                    height={20}
+                  />
+                  <Skeleton
+                    baseColor="#D2D5DB"
+                    highlightColor="#e3e3e3"
+                    width={200}
+                    height={20}
+                  />
+                </div>
+                <div className="flex gap-4">
+                  <Skeleton
+                    circle
+                    baseColor="#D2D5DB"
+                    highlightColor="#e3e3e3"
+                    width={20}
+                    height={20}
+                  />
+                  <Skeleton
+                    baseColor="#D2D5DB"
+                    highlightColor="#e3e3e3"
+                    width={200}
+                    height={20}
+                  />
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
-  ) : (
-    <></>
-  )
+  );
 }
