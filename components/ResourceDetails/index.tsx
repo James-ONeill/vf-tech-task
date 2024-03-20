@@ -66,8 +66,8 @@ export default function ResourceDetails({ id }: Props) {
         <div className="mb-8 flex">
           <button
             className={clsx(
-              "rounded-md px-2 py-1.5 transition-colors duration-150 hover:text-[#7A3FE6]",
-              tab === "overview" && "bg-[#EDE9FD] text-[#7A3FE6]",
+              "rounded-md px-2 py-1.5 transition-colors duration-150 hover:text-brand-purple-dark",
+              tab === "overview" && "bg-brand-purple-light text-brand-purple-dark",
             )}
             onClick={() => setTab("overview")}
           >
@@ -76,8 +76,8 @@ export default function ResourceDetails({ id }: Props) {
 
           <button
             className={clsx(
-              "rounded-md px-2 py-1.5 transition-colors duration-150 hover:text-[#7A3FE6]",
-              tab === "skills" && "bg-[#EDE9FD] text-[#7A3FE6]",
+              "rounded-md px-2 py-1.5 transition-colors duration-150 hover:text-brand-purple-dark",
+              tab === "skills" && "bg-brand-purple-light text-brand-purple-dark",
             )}
             onClick={() => setTab("skills")}
           >

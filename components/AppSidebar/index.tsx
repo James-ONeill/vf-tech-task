@@ -10,22 +10,22 @@ export default function AppSidebar() {
   return (
     <nav className="flex w-[295px] flex-col gap-4 bg-gray-50 px-2.5 py-5 font-medium">
       <header>
-        <Link className="flex items-center gap-2" href="/">
-          <span className="flex h-[40px] w-[40px] items-center justify-center rounded-md bg-[#783CE6] text-white">
+        <Link className="group flex items-center gap-2" href="/">
+          <span className="bg-brand-purple-dark group-hover:bg-brand-purple-dark/80 flex h-[40px] w-[40px] items-center justify-center rounded-md text-white transition-colors duration-300">
             VF
           </span>{" "}
           RESOURCING
         </Link>
       </header>
 
-      <div className="flex items-center justify-between border-b-2 border-t-2 border-[#E6E7EB] px-2 py-3">
+      <div className="border-brand-gray flex items-center justify-between border-b-2 border-t-2 px-2 py-3">
         <div>Sort</div>
 
         <div className="flex">
           <button
             className={clsx(
-              "rounded-md px-2 py-1.5 transition-colors duration-150 hover:text-[#7A3FE6]",
-              !reverseSorting && "bg-[#EDE9FD] text-[#7A3FE6]",
+              "hover:text-brand-purple-dark rounded-md px-2 py-1.5 transition-colors duration-150",
+              !reverseSorting && "bg-brand-purple-light text-brand-purple-dark",
             )}
             onClick={() => setReversedSorting(false)}
           >
@@ -34,8 +34,8 @@ export default function AppSidebar() {
 
           <button
             className={clsx(
-              "rounded-md px-2 py-1.5 transition-colors duration-150 hover:text-[#7A3FE6]",
-              reverseSorting && "color-[#7A3FE6] bg-[#EDE9FD]",
+              "hover:text-brand-purple-dark rounded-md px-2 py-1.5 transition-colors duration-150",
+              reverseSorting && "color-brand-purple-dark bg-brand-purple-light",
             )}
             onClick={() => setReversedSorting(true)}
           >
@@ -49,7 +49,7 @@ export default function AppSidebar() {
       <footer className="mt-auto">
         <Link
           href="/resources/create"
-          className="rounded-md bg-[#783CE6] px-4 py-3 text-white transition-colors duration-300 hover:bg-[#783CE6]/80"
+          className="bg-brand-purple-dark hover:bg-brand-purple-dark/80 rounded-md px-4 py-3 text-white transition-colors duration-300"
         >
           + New Resource
         </Link>

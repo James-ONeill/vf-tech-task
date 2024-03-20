@@ -51,9 +51,9 @@ export default function ResourceList({ reverseSorting }: Props) {
         <li
           key={key}
           className={clsx(
-            "border px-3 py-2 transition duration-300 hover:text-[#7A3FE6]",
+            "border px-3 py-2 transition duration-300 hover:text-brand-purple-dark",
             pathname === `/resources/${resource.id}`
-              ? "rounded-md border border-[#DDD6FC] bg-[#EDE9FD] text-black"
+              ? "rounded-md border border-brand-purple-mid bg-brand-purple-light text-black"
               : "border-transparent",
           )}
         >

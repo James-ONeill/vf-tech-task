@@ -116,7 +116,7 @@ export default function CreateResourceForm() {
           <input
             id="firstName"
             type="text"
-            className="h-8 border-2 border-[#D2D5DB] px-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-8 border-2 border-brand-gray-light px-2 disabled:cursor-not-allowed disabled:opacity-50"
             onChange={(event) => setFirstName(event.target.value)}
             disabled={isSubmitting}
           />
@@ -135,7 +135,7 @@ export default function CreateResourceForm() {
           <input
             id="lastName"
             type="text"
-            className="h-8 border-2 border-[#D2D5DB] px-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-8 border-2 border-brand-gray-light px-2 disabled:cursor-not-allowed disabled:opacity-50"
             onChange={(event) => setLastName(event.target.value)}
             disabled={isSubmitting}
           />
@@ -154,7 +154,7 @@ export default function CreateResourceForm() {
           <input
             id="role"
             type="text"
-            className="h-8 border-2 border-[#D2D5DB] px-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-8 border-2 border-brand-gray-light px-2 disabled:cursor-not-allowed disabled:opacity-50"
             onChange={(event) => setRole(event.target.value)}
             disabled={isSubmitting}
           />
@@ -172,7 +172,7 @@ export default function CreateResourceForm() {
           <input
             id="email"
             type="email"
-            className="h-8 border-2 border-[#D2D5DB] px-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-8 border-2 border-brand-gray-light px-2 disabled:cursor-not-allowed disabled:opacity-50"
             onChange={(event) => setEmail(event.target.value.toLowerCase())}
             disabled={isSubmitting}
           />
@@ -271,7 +271,7 @@ export default function CreateResourceForm() {
       <footer className="mt-10">
         <button
           type="submit"
-          className="rounded-md border border-[#DDD6FC] bg-[#EDE9FD] px-8 py-2 font-semibold text-black hover:bg-[#EDE9FD]/80 disabled:cursor-not-allowed disabled:opacity-50"
+          className="rounded-md border border-brand-purple-mid bg-brand-purple-light px-8 py-2 font-semibold text-black hover:bg-brand-purple-light/80 disabled:cursor-not-allowed disabled:opacity-50"
           disabled={isSubmitting}
         >
           Save
