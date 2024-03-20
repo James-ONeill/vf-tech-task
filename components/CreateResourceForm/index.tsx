@@ -204,7 +204,7 @@ export default function CreateResourceForm() {
                 }
                 disabled={isSubmitting}
               />
-              <label htmlFor={`skill-${skill.id}`}>{skill.name}</label>
+              <label htmlFor={`skill-${skill.id}`} className="font-medium">{skill.name}</label>
             </div>
           ))
         ) : (

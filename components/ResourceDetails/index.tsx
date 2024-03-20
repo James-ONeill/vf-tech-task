@@ -63,7 +63,7 @@ export default function ResourceDetails({ id }: Props) {
           )}
         </div>
 
-        <div className="mb-8 flex">
+        <div className="mb-8 flex font-medium">
           <button
             className={clsx(
               "rounded-md px-2 py-1.5 transition-colors duration-150 hover:text-brand-purple-dark",
