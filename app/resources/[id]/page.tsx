@@ -1,6 +1,7 @@
 import ResourceDetails from "@/components/ResourceDetails";
 import type { Metadata, ResolvingMetadata } from "next";
 import { getResourceDetails } from "@/api";
+import { notFound } from "next/navigation";
 
 interface Props {
   params: {
@@ -12,11 +13,14 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const response = await getResourceDetails(params.id);
-
-  return {
-    title: response.data.name,
-  };
+  try {
+    const response = await getResourceDetails(params.id);
+    return {
+      title: response.data.name,
+    };
+  } catch (e) {
+    notFound();
+  }
 }
 
 export default function Resource({ params }: Props) {

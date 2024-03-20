@@ -20,16 +20,12 @@ export default function ResourceDetails({ id }: Props) {
 
   useEffect(() => {
     (async () => {
-      try {
-        const response = await getResourceDetails(id);
-        setResource(response.data);
-      } catch (e) {}
+      const response = await getResourceDetails(id);
+      setResource(response.data);
     })();
     (async () => {
-      try {
-        const response = await getResourceSkills(id);
-        setSkills(response.data);
-      } catch (e) {}
+      const response = await getResourceSkills(id);
+      setSkills(response.data);
 
       setIsLoadingSkills(false);
     })();

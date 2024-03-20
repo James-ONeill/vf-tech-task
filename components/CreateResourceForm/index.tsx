@@ -1,9 +1,9 @@
 "use client";
-import { getSkills } from "@/api";
+import { createResource, getSkills } from "@/api";
 import { Skill } from "@/api/types";
-import { useEffect, useMemo, useState } from "react";
-import { createResource } from "@/api";
+import { isValidEmail } from "@/utilities";
 import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
 export default function CreateResourceForm() {
@@ -69,13 +69,7 @@ export default function CreateResourceForm() {
     if (!email || email === "") {
       validationStatus.isValid = false;
       validationStatus.errors.email = "Email is required";
-    } else if (
-      !email
-        ?.toLowerCase()
-        .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        )
-    ) {
+    } else if (!isValidEmail(email)) {
       validationStatus.isValid = false;
       validationStatus.errors.email = "A valid email address is required";
     }
